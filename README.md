@@ -24,8 +24,7 @@ Tackles challenging linear systems where standard sGMRES struggles due to rapid 
 * **`sgmres_whiten.m`**: Implements a safety-net stabilization technique. It actively monitors the condition number of the sketched basis; if it breaches a specific threshold (`tol = 10^3`), it triggers a "whitening" step that approximately orthogonalizes the basis to prevent the solver from failing.
 
 ## Implementation Notes & Deviations
-While the scripts closely follow the methodology outlined by Nakatsukasa and Tropp, a few minor deviations were made. In instances where the paper omitted specific implementation details, this codebase adopts the closest mathematical approach intended by the authors.
-
+While the scripts closely follow the methodology outlined by Nakatsukasa and Tropp, a few minor deviations were made. In instances where the paper omitted specific implementation details, this codebase adopts the closest mathematical approach intended by the authors. Mainly, we found a typographical error in the paper's Algorithm 1.1, Line 14. The paper incorrectly states the solution should be constructed using the columns of the reduced matrix: $\hat{x} = x + [m_1, ..., m_j]\hat{y}$. Our implementation correctly constructs the solution using the basis vectors, aligning with the mathematical definition $\hat{x} = x_0 + B\hat{y}$ established in Sections 3.2 and 3.3 of the text.
 ## Dependencies & Acknowledgments
 This project relies on built-in MATLAB functions (such as `gmres`) and external software to generate test matrices:
 1. **IFISS Software Package**: Used to generate the FEM discretization data for the nonsymmetric convection-diffusion case. It is only necessary to install if your desire it to generate nonsymmetric.mat independently. It can be obtained here: [https://personalpages.manchester.ac.uk/staff/david.silvester/ifiss/default.htm]. 
