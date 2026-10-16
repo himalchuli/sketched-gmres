@@ -11,12 +11,15 @@ The codebase is split into two main directories to separate standard memory-effi
 ### `memory_efficient/`
 Contains the primary experiments utilizing a highly storage-efficient implementation of the sGMRES algorithm. Standard GMRES stores the entire basis matrix in memory, which can easily crash machines on large problems. Our implementation solves this by using a circular buffer to store only the $k+1$ most recent basis vectors needed for truncated orthogonalization. It sketches the reduced matrix on the fly, solves the least-squares problem, and then regenerates the basis vectors a second time to construct the final solution vector. This trades CPU cycles for a massive reduction in RAM usage.
 * **`nonsymmetric.m`**: Reproduces **Figure 1**, comparing GMRES and sGMRES ($k=4$) for a finite-element (FEM) discretization of a 2D convection-diffusion equation. 
+![Nonsymmetric Results](memory_efficient/nosym_large_mem_eff_k4.png)
 * **`symmetric.m`**: Reproduces **Figure 3**, evaluating performance on a massive $10^6$-dimensional symmetric 2D Laplacian system and comparing sGMRES against standard GMRES and Conjugate Gradient (`pcg`). 
+![Symmetric Results](memory_efficient/sym_large_mem_eff.png)
 * **`sgmres.m`**: The core algorithmic engine implementing the memory-efficient sGMRES with $k$-truncated Arnoldi.
 
 ### `hard/`
 Tackles challenging linear systems where standard sGMRES struggles due to rapid growth in the basis condition number.
 * **`hard.m`**: Reproduces **Figure 4**, running a stress test on the notoriously difficult `fs_680_1` Matrix Market dataset to demonstrate a scenario where it is difficult to construct a numerically full-rank basis for the Krylov subspace. 
+![Hard Problem Results](hard/hard.png)
 * **`sgmres.m`**: The baseline sketched GMRES engine using a Subsampled Randomized Fourier Transform (SRFT) and $k$-truncated Arnoldi.
 * **`sgmres_whiten.m`**: Implements a safety-net stabilization technique. It actively monitors the condition number of the sketched basis; if it breaches a specific threshold (`tol = 10^3`), it triggers a "whitening" step that approximately orthogonalizes the basis to prevent the solver from failing.
 
