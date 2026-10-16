@@ -1,4 +1,4 @@
-# Sketched GMRES: Reproducing NakTro24
+# Sketched GMRES: Reproducing Results in Published Paper
 
 This repository contains a MATLAB implementation that reproduces key figures from the paper *"Fast and Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems"* by Yuji Nakatsukasa and Joel A. Tropp. The full paper can be accessed via its DOI: [10.1137/23M1565413](https://doi.org/10.1137/23M1565413).
 
